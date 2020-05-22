@@ -3,6 +3,7 @@
 # Let's Begin Now
 
 import csv
+from hexCalc import HexCalculations
 from enum import Enum
 
 class HexRes(Enum):
@@ -63,7 +64,7 @@ def main():
         print("Catan Board had errors in it, please reinput the data and try again")
         return
 
-    
+
 
 if __name__ == "__main__":
     main()
