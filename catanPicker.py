@@ -87,6 +87,7 @@ def verifyNumArr(hexNumArr):
             value = int(item)
         except ValueError:
             print("An item other than an Int was passed")
+            return False
 
     if(hexNumArr.count("0") != 1 or hexNumArr.count("2") != 1 or hexNumArr.count("12") != 1 or
         hexNumArr.count("3") != 2 or hexNumArr.count("4") != 2 or hexNumArr.count("5") != 2 or
