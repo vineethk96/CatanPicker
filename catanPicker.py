@@ -31,6 +31,7 @@ def readCSV():
     else:
         # throw error
         print("error has occured with the array")
+        return
 
     #print(hexArray)
 
@@ -50,9 +51,19 @@ def verifyCSV(hexArray):
 
 
 def main():
-    print("Hello World!")
+    print("---------------------------------------------------------------------------------------------------")
+    print("Welcome to the CatanPicker")
+    print("Please update the CatanBoard.csv with the correct board configuration before running this program")
+    print("---------------------------------------------------------------------------------------------------")
 
-    catanHexes = readCSV()
+    try:
+        catanHexes = readCSV()
+        print("Catan Board was successfully read")
+    except:
+        print("Catan Board had errors in it, please reinput the data and try again")
+        return
+
+    
 
 if __name__ == "__main__":
     main()
