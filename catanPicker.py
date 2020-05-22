@@ -41,8 +41,9 @@ def readCSV():
     except:
         print("Numbers have an issue.")
 
-
-    #print(hexArray)
+    # ---------------------
+    # R E T U R N
+    # ----------------------
 
 def verifyResArr(hexResArr):
     WoodCnt = 4
@@ -100,6 +101,8 @@ def verifyNumArr(hexNumArr):
 def updateGraph(hexArray):
     hexCalcObj = HexCalculations(hexArray)
 
+    hexCalcObj.convert2Graph()
+
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
@@ -112,7 +115,7 @@ def main():
     except:
         print("Catan Board had errors in it, please reinput the data and try again")
         return
-
+    print(catanHexes)
     updateGraph(catanHexes)
 
 
