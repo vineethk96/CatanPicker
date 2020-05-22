@@ -3,6 +3,7 @@
 # Let's Begin Now
 
 import csv
+import operator
 from hexCalc import HexCalculations
 from enum import Enum
 
@@ -44,7 +45,6 @@ def readCSV():
     #print(hexArray)
 
 def verifyResArr(hexResArr):
-    print("hexResArr")
     WoodCnt = 4
     BrickCnt = 3
     WheatCnt = 4
@@ -79,15 +79,20 @@ def verifyResArr(hexResArr):
 
 def verifyNumArr(hexNumArr):
 
+    if(len(hexNumArr) != 19):
+        return False
+
     for item in hexNumArr:
         try:
             value = int(item)
         except ValueError:
             print("An item other than an Int was passed")
 
-    my_dict = {i:hexNumArr.count(i) for i in hexNumArr}
-
-    print(my_dict)
+    if(hexNumArr.count("0") != 1 or hexNumArr.count("2") != 1 or hexNumArr.count("12") != 1 or
+        hexNumArr.count("3") != 2 or hexNumArr.count("4") != 2 or hexNumArr.count("5") != 2 or
+        hexNumArr.count("6") != 2 or hexNumArr.count("8") != 2 or hexNumArr.count("9") != 2 or
+        hexNumArr.count("10") != 2 or hexNumArr.count("11") != 2):
+        return False
 
     return True
 
