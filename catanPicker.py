@@ -50,6 +50,8 @@ def verifyCSV(hexArray):
 
     return True
 
+def updateGraph(hexArray):
+    hexCalcObj = HexCalculations(hexArray)
 
 def main():
     print("---------------------------------------------------------------------------------------------------")
@@ -63,6 +65,8 @@ def main():
     except:
         print("Catan Board had errors in it, please reinput the data and try again")
         return
+
+    updateGraph(catanHexes)
 
 
 
