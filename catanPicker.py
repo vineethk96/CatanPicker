@@ -144,11 +144,11 @@ def main():
         print("Catan Board had errors in it, please reinput the data and try again")
         return
 
-    dicePoss = calcDicePoss(catanHexes[1])
+    dicePossList = calcDicePoss(catanHexes[1])
 
     print(catanHexes[0])
     print(catanHexes[1])
-    print(dicePoss)
+    print(dicePossList)
     #updateGraph(catanHexes)
 
 

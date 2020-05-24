@@ -4,8 +4,6 @@ from hexNode import HexNode
 
 class HexCalculations:
 
-
-
     def __init__(self,hexVals):
         self.hexVals = hexVals
 
