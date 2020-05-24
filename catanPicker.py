@@ -35,11 +35,15 @@ def readCSV():
         verifyResArr(hexResArr)
     except:
         print("Resources have an issue.")
+        return
 
     try:
         verifyNumArr(hexNumArr)
     except:
         print("Numbers have an issue.")
+        return
+
+    return (hexResArr,hexNumArr)
 
     # ---------------------
     # R E T U R N
@@ -98,8 +102,8 @@ def verifyNumArr(hexNumArr):
 
     return True
 
-def updateGraph(hexArray):
-    hexCalcObj = HexCalculations(hexArray)
+def updateGraph(hexVals):
+    hexCalcObj = HexCalculations(hexVals)
 
     hexCalcObj.convert2Graph()
 
@@ -115,7 +119,7 @@ def main():
     except:
         print("Catan Board had errors in it, please reinput the data and try again")
         return
-    print(catanHexes)
+    #print(catanHexes)
     updateGraph(catanHexes)
 
 
