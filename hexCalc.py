@@ -1,11 +1,14 @@
 # HexCalculations class goes Here
 
+from hexNode import HexNode
+
 class HexCalculations:
 
 
 
     def __init__(self,hexVals):
         self.hexVals = hexVals
+
 
     def convert2Graph(self):
 

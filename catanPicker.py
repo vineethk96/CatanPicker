@@ -4,7 +4,7 @@
 
 import csv
 import operator
-from hexCalc import HexCalculations
+#from hexCalc import HexCalculations
 from enum import Enum
 
 class HexRes(Enum):
@@ -44,10 +44,6 @@ def readCSV():
         return
 
     return (hexResArr,hexNumArr)
-
-    # ---------------------
-    # R E T U R N
-    # ----------------------
 
 def verifyResArr(hexResArr):
     WoodCnt = 4
@@ -107,6 +103,34 @@ def updateGraph(hexVals):
 
     hexCalcObj.convert2Graph()
 
+def calcDicePoss(numList):
+    dicePossList = []
+
+    for item in numList:
+        if(item == "2"):
+            dicePossList.append(1)
+        elif(item == "3"):
+            dicePossList.append(2)
+        elif(item == "4"):
+            dicePossList.append(3)
+        elif(item == "5"):
+            dicePossList.append(4)
+        elif(item == "6"):
+            dicePossList.append(5)
+        elif(item == "8"):
+            dicePossList.append(5)
+        elif(item == "9"):
+            dicePossList.append(4)
+        elif(item == "10"):
+            dicePossList.append(3)
+        elif(item == "11"):
+            dicePossList.append(2)
+        elif(item == "12"):
+            dicePossList.append(1)
+        elif(item == "0"):
+            dicePossList.append(0)
+    return dicePossList
+
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
@@ -119,8 +143,13 @@ def main():
     except:
         print("Catan Board had errors in it, please reinput the data and try again")
         return
-    #print(catanHexes)
-    updateGraph(catanHexes)
+
+    dicePoss = calcDicePoss(catanHexes[1])
+
+    print(catanHexes[0])
+    print(catanHexes[1])
+    print(dicePoss)
+    #updateGraph(catanHexes)
 
 
 
