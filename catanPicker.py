@@ -131,6 +131,25 @@ def calcDicePoss(numList):
             dicePossList.append(0)
     return dicePossList
 
+def createDicts(res, vals, possVals):
+
+    iter = 0
+    boardDict = {}          # initialize the dictionary
+
+    # Each dictionary is added to the larger dictionary
+    for item in res:
+        tempDict = {
+            "Resouce" : res[iter],
+            "Value" : vals[iter],
+            "Possibility" : possVals[iter]
+        }
+
+        boardDict[iter] = tempDict
+        iter+=1
+
+    print(boardDict)
+    return boardDict
+
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
@@ -149,6 +168,8 @@ def main():
     print(catanHexes[0])
     print(catanHexes[1])
     print(dicePossList)
+
+    boardDict = createDicts(catanHexes[0], catanHexes[1], dicePossList)
     #updateGraph(catanHexes)
 
 
