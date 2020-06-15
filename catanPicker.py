@@ -150,6 +150,10 @@ def createDicts(res, vals, possVals):
     print(boardDict)
     return boardDict
 
+def createNeighborhood():
+    
+
+
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
