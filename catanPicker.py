@@ -43,6 +43,16 @@ def readCSV():
         print("Numbers have an issue.")
         return
 
+# -------------------------------------------
+
+    with open('neighbors.csv') as csvDataFile:
+        csv_reader = csv.reader(csvDataFile)
+        line_count = 0
+
+        for row in csv_reader:
+            if row[0] == outer:
+                # do something
+
     return (hexResArr,hexNumArr)
 
 def verifyResArr(hexResArr):
@@ -150,8 +160,14 @@ def createDicts(res, vals, possVals):
     print(boardDict)
     return boardDict
 
+def importBoard():
+
+
+    return
+
 def createNeighborhood():
-    
+
+    return
 
 
 def main():
