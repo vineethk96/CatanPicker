@@ -17,9 +17,11 @@ class HexRes(Enum):
 
 def readCSV():
 
-    hexResArr = []
-    hexNumArr = []
-    vertexDict = {}
+    hexResList = []
+    hexNumList = []
+    outerVList = []
+    midVList = []
+    innerVList = []
     ringNum = 0
 
 # -- read the catan board csv --
@@ -28,26 +30,33 @@ def readCSV():
         line_count = 0
 
         for row in csv_reader:
-            hexResArr.append(row[0].title())
-            hexNumArr.append(row[1])
+            hexResList.append(row[0].title())
+            hexNumList.append(row[1])
 
-        hexResArr.pop(0)
-        hexNumArr.pop(0)
+        hexResList.pop(0)
+        hexNumList.pop(0)
 
     try:
-        verifyResArr(hexResArr)
+        verifyResList(hexResList)
     except:
         print("Resources have an issue.")
         return
 
     try:
-        verifyNumArr(hexNumArr)
+        verifyNumList(hexNumList)
     except:
         print("Numbers have an issue.")
         return
 
-# -------------------------------------------
-# -- read the neighbors csv --
+    return (hexResList,hexNumList)
+
+def readNeighborCSV():
+
+    outerVList = []
+    midVList = []
+    innerVList = []
+    tempList = []
+
     with open('neighbors.csv') as csvDataFile:
         csv_reader = csv.reader(csvDataFile)
         line_count = 0
@@ -55,17 +64,38 @@ def readCSV():
         for row in csv_reader:
             if row[0] == "outer":
                 ringNum = 1
-            if row[0] == "mid":
+                continue
+            elif row[0] == "mid":
                 ringNum = 2
-            if row[0] == "inner":
+                continue
+            elif row[0] == "inner":
                 ringNum = 3
+                continue
 
+            # creates a list for the neighbors on the outside ring
+            temp1 = row[0]
+            if row[1] is not None:
+                temp2 = row[1]
+                if row[2] is not None:
+                    temp3 = row[2]
+                    tempList = [temp1, temp2, temp3]
+                else:
+                    tempList = [temp1, temp2]
+            else:
+                tempList = [temp1]
+
+            #print("tempList")
+            #print(tempList)
             if ringNum == 1:
-                
+                outerVList.append(tempList)
+            elif ringNum == 2:
+                midVList.append(tempList)
+            elif ringNum == 3:
+                innerVList.append(tempList)
 
-    return (hexResArr,hexNumArr)
+    return (outerVList, midVList, innerVList)
 
-def verifyResArr(hexResArr):
+def verifyResList(hexResList):
     WoodCnt = 4
     BrickCnt = 3
     WheatCnt = 4
@@ -73,7 +103,7 @@ def verifyResArr(hexResArr):
     OreCnt = 3
     DesertCnt = 1
 
-    for item in hexResArr:
+    for item in hexResList:
 
         if( item not in HexRes.__members__ ):
             print(item + " is not a memeber")
@@ -98,22 +128,22 @@ def verifyResArr(hexResArr):
 
     return True
 
-def verifyNumArr(hexNumArr):
+def verifyNumList(hexNumList):
 
-    if(len(hexNumArr) != 19):
+    if(len(hexNumList) != 19):
         return False
 
-    for item in hexNumArr:
+    for item in hexNumList:
         try:
             value = int(item)
         except ValueError:
             print("An item other than an Int was passed")
             return False
 
-    if(hexNumArr.count("0") != 1 or hexNumArr.count("2") != 1 or hexNumArr.count("12") != 1 or
-        hexNumArr.count("3") != 2 or hexNumArr.count("4") != 2 or hexNumArr.count("5") != 2 or
-        hexNumArr.count("6") != 2 or hexNumArr.count("8") != 2 or hexNumArr.count("9") != 2 or
-        hexNumArr.count("10") != 2 or hexNumArr.count("11") != 2):
+    if(hexNumList.count("0") != 1 or hexNumList.count("2") != 1 or hexNumList.count("12") != 1 or
+        hexNumList.count("3") != 2 or hexNumList.count("4") != 2 or hexNumList.count("5") != 2 or
+        hexNumList.count("6") != 2 or hexNumList.count("8") != 2 or hexNumList.count("9") != 2 or
+        hexNumList.count("10") != 2 or hexNumList.count("11") != 2):
         return False
 
     return True
@@ -170,16 +200,6 @@ def createDicts(res, vals, possVals):
     print(boardDict)
     return boardDict
 
-def importBoard():
-
-
-    return
-
-def createNeighborhood():
-
-    return
-
-
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
@@ -188,16 +208,33 @@ def main():
 
     try:
         catanHexes = readCSV()
-        print("Catan Board was successfully read")
+        print("Catan Board was successfully read.")
     except:
-        print("Catan Board had errors in it, please reinput the data and try again")
+        print("Catan Board had errors in it, please reinput the data and try again.")
         return
+
+    try:
+        tempListCont = readNeighborCSV()
+        print("Neighbors were successfully read.")
+    except:
+        print("Neighbors could not be read.")
+        return
+
+    outerRing = tempListCont[0]
+    midRing = tempListCont[1]
+    innerRing = tempListCont[2]
 
     dicePossList = calcDicePoss(catanHexes[1])
 
     print(catanHexes[0])
     print(catanHexes[1])
     print(dicePossList)
+    print("Outer ----")
+    print(outerRing)
+    print("Mid ------")
+    print(midRing)
+    print("Inner ----")
+    print(innerRing)
 
     boardDict = createDicts(catanHexes[0], catanHexes[1], dicePossList)
     #updateGraph(catanHexes)
