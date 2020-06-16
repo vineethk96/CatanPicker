@@ -17,35 +17,85 @@ class HexRes(Enum):
 
 def readCSV():
 
-    hexResArr = []
-    hexNumArr = []
+    hexResList = []
+    hexNumList = []
+    outerVList = []
+    midVList = []
+    innerVList = []
+    ringNum = 0
 
+# -- read the catan board csv --
     with open('catanBoard.csv') as csvDataFile:
         csv_reader = csv.reader(csvDataFile)
         line_count = 0
 
         for row in csv_reader:
-            hexResArr.append(row[0].title())
-            hexNumArr.append(row[1])
+            hexResList.append(row[0].title())
+            hexNumList.append(row[1])
 
-        hexResArr.pop(0)
-        hexNumArr.pop(0)
+        hexResList.pop(0)
+        hexNumList.pop(0)
 
     try:
-        verifyResArr(hexResArr)
+        verifyResList(hexResList)
     except:
         print("Resources have an issue.")
         return
 
     try:
-        verifyNumArr(hexNumArr)
+        verifyNumList(hexNumList)
     except:
         print("Numbers have an issue.")
         return
 
-    return (hexResArr,hexNumArr)
+    return (hexResList,hexNumList)
 
-def verifyResArr(hexResArr):
+def readNeighborCSV():
+
+    outerVList = []
+    midVList = []
+    innerVList = []
+    tempList = []
+
+    with open('neighbors.csv') as csvDataFile:
+        csv_reader = csv.reader(csvDataFile)
+        line_count = 0
+
+        for row in csv_reader:
+            if row[0] == "outer":
+                ringNum = 1
+                continue
+            elif row[0] == "mid":
+                ringNum = 2
+                continue
+            elif row[0] == "inner":
+                ringNum = 3
+                continue
+
+            # creates a list for the neighbors on the outside ring
+            temp1 = row[0]
+            if row[1] is not None:
+                temp2 = row[1]
+                if row[2] is not None:
+                    temp3 = row[2]
+                    tempList = [temp1, temp2, temp3]
+                else:
+                    tempList = [temp1, temp2]
+            else:
+                tempList = [temp1]
+
+            #print("tempList")
+            #print(tempList)
+            if ringNum == 1:
+                outerVList.append(tempList)
+            elif ringNum == 2:
+                midVList.append(tempList)
+            elif ringNum == 3:
+                innerVList.append(tempList)
+
+    return (outerVList, midVList, innerVList)
+
+def verifyResList(hexResList):
     WoodCnt = 4
     BrickCnt = 3
     WheatCnt = 4
@@ -53,7 +103,7 @@ def verifyResArr(hexResArr):
     OreCnt = 3
     DesertCnt = 1
 
-    for item in hexResArr:
+    for item in hexResList:
 
         if( item not in HexRes.__members__ ):
             print(item + " is not a memeber")
@@ -78,22 +128,22 @@ def verifyResArr(hexResArr):
 
     return True
 
-def verifyNumArr(hexNumArr):
+def verifyNumList(hexNumList):
 
-    if(len(hexNumArr) != 19):
+    if(len(hexNumList) != 19):
         return False
 
-    for item in hexNumArr:
+    for item in hexNumList:
         try:
             value = int(item)
         except ValueError:
             print("An item other than an Int was passed")
             return False
 
-    if(hexNumArr.count("0") != 1 or hexNumArr.count("2") != 1 or hexNumArr.count("12") != 1 or
-        hexNumArr.count("3") != 2 or hexNumArr.count("4") != 2 or hexNumArr.count("5") != 2 or
-        hexNumArr.count("6") != 2 or hexNumArr.count("8") != 2 or hexNumArr.count("9") != 2 or
-        hexNumArr.count("10") != 2 or hexNumArr.count("11") != 2):
+    if(hexNumList.count("0") != 1 or hexNumList.count("2") != 1 or hexNumList.count("12") != 1 or
+        hexNumList.count("3") != 2 or hexNumList.count("4") != 2 or hexNumList.count("5") != 2 or
+        hexNumList.count("6") != 2 or hexNumList.count("8") != 2 or hexNumList.count("9") != 2 or
+        hexNumList.count("10") != 2 or hexNumList.count("11") != 2):
         return False
 
     return True
@@ -131,6 +181,94 @@ def calcDicePoss(numList):
             dicePossList.append(0)
     return dicePossList
 
+def createDicts(res, vals, possVals):
+
+    iter = 0
+    boardDict = {}          # initialize the dictionary
+
+    # Each dictionary is added to the larger dictionary
+    for item in res:
+        tempDict = {
+            "Resouce" : res[iter],
+            "Value" : vals[iter],
+            "Possibility" : possVals[iter]
+        }
+
+        boardDict[iter] = tempDict
+        iter+=1
+
+    #print(boardDict)
+    return boardDict
+
+def calcNeighborWeights(boardDict, outerRing, midRing, innerRing):
+
+    #print(outerRing[0])
+    #print(outerRing[1])
+
+    bestSpot = []
+
+    outerPossRing = neighborParser(boardDict, outerRing)
+    midPossRing = neighborParser(boardDict, midRing)
+    innerPossRing = neighborParser(boardDict, innerRing)
+
+    largeOuter = max(outerPossRing)
+    largeMid = max(midPossRing)
+    largeInner = max(innerPossRing)
+
+    print(largeOuter)
+    print(largeMid)
+    print(largeInner)
+
+    largeOuterLoc = outerPossRing.index(largeOuter)
+    largeMidLoc = midPossRing.index(largeMid)
+    largeInnerLoc = innerPossRing.index(largeInner)
+
+    print("The best spot is: ")
+
+    if(largeOuter > largeMid) and (largeOuter > largeInner):
+        print("outer ring")
+        bestSpot = outerRing[largeOuterLoc]
+    elif(largeMid > largeOuter) and (largeMid > largeInner):
+        print("mid ring")
+        bestSpot = midRing[largeMidLoc]
+    elif(largeInner > largeOuter) and (largeInner > largeMid):
+        print("inner ring")
+        bestSpot = innerRing[largeInnerLoc]
+
+    print(boardDict[int(bestSpot[0])])
+    print(boardDict[int(bestSpot[1])])
+    print(boardDict[int(bestSpot[2])])
+
+    return
+
+def neighborParser(boardDict, ring):
+    possRing = []
+    neigh2 = False
+    neigh3 = False
+
+    for vertex in ring:
+
+        neigh1Poss = boardDict[int(vertex[0])]["Possibility"]
+
+        if vertex[1]:
+            neigh2 = True
+            neigh2Poss = boardDict[int(vertex[1])]["Possibility"]
+        if vertex[2]:
+            neigh3 = True
+            neigh3Poss = boardDict[int(vertex[2])]["Possibility"]
+
+        if neigh2 and neigh3:
+            possRing.append(neigh1Poss + neigh2Poss + neigh3Poss)
+        elif neigh2:
+            possRing.append(neigh1Poss + neigh2Poss)
+        else:
+            possRing.append(neigh1Poss)
+
+        neigh2 = False
+        neigh3 = False
+
+    return possRing
+
 def main():
     print("---------------------------------------------------------------------------------------------------")
     print("Welcome to the CatanPicker")
@@ -139,17 +277,41 @@ def main():
 
     try:
         catanHexes = readCSV()
-        print("Catan Board was successfully read")
+        print("Catan Board was successfully read.")
     except:
-        print("Catan Board had errors in it, please reinput the data and try again")
+        print("Catan Board had errors in it, please reinput the data and try again.")
         return
+
+    try:
+        tempListCont = readNeighborCSV()
+        print("Neighbors were successfully read.")
+    except:
+        print("Neighbors could not be read.")
+        return
+
+    outerRing = tempListCont[0]
+    midRing = tempListCont[1]
+    innerRing = tempListCont[2]
 
     dicePossList = calcDicePoss(catanHexes[1])
 
     print(catanHexes[0])
     print(catanHexes[1])
     print(dicePossList)
-    #updateGraph(catanHexes)
+    print("Outer ----")
+    print(outerRing)
+    print("Mid ------")
+    print(midRing)
+    print("Inner ----")
+    print(innerRing)
+    print()
+    print("-------------------------------------------------------------------")
+    print()
+
+    boardDict = createDicts(catanHexes[0], catanHexes[1], dicePossList)
+
+    calcNeighborWeights(boardDict, outerRing, midRing, innerRing)
+
 
 
 
