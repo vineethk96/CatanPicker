@@ -19,7 +19,10 @@ def readCSV():
 
     hexResArr = []
     hexNumArr = []
+    vertexDict = {}
+    ringNum = 0
 
+# -- read the catan board csv --
     with open('catanBoard.csv') as csvDataFile:
         csv_reader = csv.reader(csvDataFile)
         line_count = 0
@@ -44,14 +47,21 @@ def readCSV():
         return
 
 # -------------------------------------------
-
+# -- read the neighbors csv --
     with open('neighbors.csv') as csvDataFile:
         csv_reader = csv.reader(csvDataFile)
         line_count = 0
 
         for row in csv_reader:
-            if row[0] == outer:
-                # do something
+            if row[0] == "outer":
+                ringNum = 1
+            if row[0] == "mid":
+                ringNum = 2
+            if row[0] == "inner":
+                ringNum = 3
+
+            if ringNum == 1:
+                
 
     return (hexResArr,hexNumArr)
 
