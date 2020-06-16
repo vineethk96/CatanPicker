@@ -197,8 +197,77 @@ def createDicts(res, vals, possVals):
         boardDict[iter] = tempDict
         iter+=1
 
-    print(boardDict)
+    #print(boardDict)
     return boardDict
+
+def calcNeighborWeights(boardDict, outerRing, midRing, innerRing):
+
+    #print(outerRing[0])
+    #print(outerRing[1])
+
+    bestSpot = []
+
+    outerPossRing = neighborParser(boardDict, outerRing)
+    midPossRing = neighborParser(boardDict, midRing)
+    innerPossRing = neighborParser(boardDict, innerRing)
+
+    largeOuter = max(outerPossRing)
+    largeMid = max(midPossRing)
+    largeInner = max(innerPossRing)
+
+    print(largeOuter)
+    print(largeMid)
+    print(largeInner)
+
+    largeOuterLoc = outerPossRing.index(largeOuter)
+    largeMidLoc = midPossRing.index(largeMid)
+    largeInnerLoc = innerPossRing.index(largeInner)
+
+    print("The best spot is: ")
+
+    if(largeOuter > largeMid) and (largeOuter > largeInner):
+        print("outer ring")
+        bestSpot = outerRing[largeOuterLoc]
+    elif(largeMid > largeOuter) and (largeMid > largeInner):
+        print("mid ring")
+        bestSpot = midRing[largeMidLoc]
+    elif(largeInner > largeOuter) and (largeInner > largeMid):
+        print("inner ring")
+        bestSpot = innerRing[largeInnerLoc]
+
+    print(boardDict[int(bestSpot[0])])
+    print(boardDict[int(bestSpot[1])])
+    print(boardDict[int(bestSpot[2])])
+
+    return
+
+def neighborParser(boardDict, ring):
+    possRing = []
+    neigh2 = False
+    neigh3 = False
+
+    for vertex in ring:
+
+        neigh1Poss = boardDict[int(vertex[0])]["Possibility"]
+
+        if vertex[1]:
+            neigh2 = True
+            neigh2Poss = boardDict[int(vertex[1])]["Possibility"]
+        if vertex[2]:
+            neigh3 = True
+            neigh3Poss = boardDict[int(vertex[2])]["Possibility"]
+
+        if neigh2 and neigh3:
+            possRing.append(neigh1Poss + neigh2Poss + neigh3Poss)
+        elif neigh2:
+            possRing.append(neigh1Poss + neigh2Poss)
+        else:
+            possRing.append(neigh1Poss)
+
+        neigh2 = False
+        neigh3 = False
+
+    return possRing
 
 def main():
     print("---------------------------------------------------------------------------------------------------")
@@ -235,9 +304,14 @@ def main():
     print(midRing)
     print("Inner ----")
     print(innerRing)
+    print()
+    print("-------------------------------------------------------------------")
+    print()
 
     boardDict = createDicts(catanHexes[0], catanHexes[1], dicePossList)
-    #updateGraph(catanHexes)
+
+    calcNeighborWeights(boardDict, outerRing, midRing, innerRing)
+
 
 
 
