@@ -312,8 +312,5 @@ def main():
 
     calcNeighborWeights(boardDict, outerRing, midRing, innerRing)
 
-
-
-
 if __name__ == "__main__":
     main()
