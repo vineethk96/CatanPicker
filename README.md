@@ -8,12 +8,9 @@ Catan is a resource management game, where the goal is to utilize resources to m
 #### catanPicker.py
   This file contains the main portion of the code.
   Verifies if the csv inputted is the correct format.
-#### hexCalc.py
-  This file will do the calculations after the linked list is created.
-#### hexNode.py
-  This file holds the custom Node class.
-
-  Node class structure:
-
-#### hexLinkedList.py
-  This file builds the custom data structure which mimics the game board, utilizing the custom Node class.
+#### catanBoard.csv
+  Contains the board information. Column 1 has the resources, and column 2 has the dice roll number.
+#### neighbors.csv
+  Contains the each vertex by hex. It should be noted, that the neighbors are listed from left to right.
+  
+  ![Catan Board Setup](https://octodex.github.com/images/yaktocat.png)
