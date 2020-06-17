@@ -202,9 +202,6 @@ def createDicts(res, vals, possVals):
 
 def calcNeighborWeights(boardDict, outerRing, midRing, innerRing):
 
-    #print(outerRing[0])
-    #print(outerRing[1])
-
     bestSpot = []
 
     outerPossRing = neighborParser(boardDict, outerRing)
@@ -227,17 +224,36 @@ def calcNeighborWeights(boardDict, outerRing, midRing, innerRing):
 
     if(largeOuter > largeMid) and (largeOuter > largeInner):
         print("outer ring")
-        bestSpot = outerRing[largeOuterLoc]
+        bestSpot.append(outerRing[largeOuterLoc])
     elif(largeMid > largeOuter) and (largeMid > largeInner):
         print("mid ring")
-        bestSpot = midRing[largeMidLoc]
+        bestSpot.append(midRing[largeMidLoc])
     elif(largeInner > largeOuter) and (largeInner > largeMid):
         print("inner ring")
-        bestSpot = innerRing[largeInnerLoc]
+        bestSpot.append(innerRing[largeInnerLoc])
+    elif(largeOuter == largeInner) and (largeOuter == largeMid):
+        print("Outer = Inner = Mid")
+        bestSpot.append(outerRing[largeOuterLoc])
+        bestSpot.append(midRing[largeMidLoc])
+        bestSpot.append(innerRing[largeInnerLoc])
+    elif(largeOuter == largeInner):
+        print("Outer = Inner")
+        bestSpot.append(outerRing[largeOuterLoc])
+        bestSpot.append(innerRing[largeInnerLoc])
+    elif(largeOuter == largeMid):
+        print("Outer = Mid")
+        bestSpot.append(outerRing[largeOuterLoc])
+        bestSpot.append(midRing[largeMidLoc])
+    elif(largeMid == largeInner):
+        print("Mid = Inner")
+        bestSpot.append(midRing[largeMidLoc])
+        bestSpot.append(innerRing[largeInnerLoc])
 
-    print(boardDict[int(bestSpot[0])])
-    print(boardDict[int(bestSpot[1])])
-    print(boardDict[int(bestSpot[2])])
+    for spot in bestSpot:
+        print("------------------------------------------------------")
+        print(boardDict[int(spot[0])])
+        print(boardDict[int(spot[1])])
+        print(boardDict[int(spot[2])])
 
     return
 
