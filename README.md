@@ -13,4 +13,4 @@ Catan is a resource management game, where the goal is to utilize resources to m
 #### neighbors.csv
   Contains the each vertex by hex. It should be noted, that the neighbors are listed from left to right.
   
-  ![Catan Board Setup](catanPicker.jpg)
+  ![Catan Board Setup](catanPicker_w_table.jpg)
