@@ -7,7 +7,17 @@ Catan is a resource management game, where the goal is to utilize resources to m
 ### Files:
 #### catanPicker.py
   This file contains the main portion of the code.
-  Verifies if the csv inputted is the correct format.
+  
+    1. Pulls in catanBoard.csv, and neighbors.csv.
+    2. Verifies if the catanBoard.csv inputted is the correct format.
+    3. Stores the neighbors into 3 lists, each list comprising of lists which 
+    hold the vertex's "coordinates". These coordinates represent the 3 neighboring 
+    hexs. Each one of the 3 lists, represents a ring around the board, as seen below.
+   <img src="catanPicker_Rings.jpg" width="500">
+    
+    4.Iterates through each ring, and determines which combination of neighbors,
+    have the best average dice number.    
+    
 #### catanBoard.csv
   Contains the board information. Column 1 has the resources, and column 2 has the dice roll number.
 #### neighbors.csv
