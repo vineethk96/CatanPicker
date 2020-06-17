@@ -13,8 +13,7 @@ Catan is a resource management game, where the goal is to utilize resources to m
     3. Stores the neighbors into 3 lists, each list comprising of lists which 
     hold the vertex's "coordinates". These coordinates represent the 3 neighboring 
     hexs. Each one of the 3 lists, represents a ring around the board, as seen below.
-   ![Catan Board Rings](catanPicker_Rings.jpg)
-   <img src="catanPicker_Rings.jpg" width="200">
+   <img src="catanPicker_Rings.jpg" width="500">
     
     4.Iterates through each ring, and determines which combination of neighbors,
     have the best average dice number.    
