@@ -10,7 +10,9 @@ Catan is a resource management game, where the goal is to utilize resources to m
   
     1. Pulls in catanBoard.csv, and neighbors.csv.
     2. Verifies if the catanBoard.csv inputted is the correct format.
-    3. Stores the neighbors into 3 lists, each list comprising of lists which hold the vertex's "coordinates". These coordinates represent the 3 neighboring hexs. Each one of the 3 lists, represents a ring around the board, as seen below.
+    3. Stores the neighbors into 3 lists, each list comprising of lists which 
+    hold the vertex's "coordinates". These coordinates represent the 3 neighboring 
+    hexs. Each one of the 3 lists, represents a ring around the board, as seen below.
    ![Catan Board Rings](catanPicker_Rings.jpg)
 #### catanBoard.csv
   Contains the board information. Column 1 has the resources, and column 2 has the dice roll number.
